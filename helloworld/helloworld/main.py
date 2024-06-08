@@ -5,4 +5,4 @@ app = FastAPI()
 
 @app.get("/")
 def main():
-    return {"Class" : "Wednesday"}
+    return {"Class" : "Thursday"}
