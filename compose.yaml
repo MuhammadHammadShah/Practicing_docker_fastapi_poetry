@@ -12,7 +12,7 @@ services:
       context: ./     #its here outside the compose.yaml
       dockerfile: Dockerfile #named as Dockerfile
     #my container name is:
-    container_name: mydevcontainer
+    container_name: myfastapicontainer
 #we can create our own container with commands
     #expose is used for selection of ports 
     expose:
