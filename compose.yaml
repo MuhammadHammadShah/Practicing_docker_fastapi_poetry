@@ -1,20 +1,34 @@
-#version of our project
-version: '1.0.0'
-#name of our porject
+version: '1.0.1'
 name : "fastapi"
-#main work or service starts from here
 services:
-#our service name
   api:
-#we want to build something
-    build: 
-    #where the dockerfile is placed as we are building a docker image
-      context: ./     #its here outside the compose.yaml
-      dockerfile: Dockerfile #named as Dockerfile
-    #my container name is:
-    container_name: myfastapicontainer
-#we can create our own container with commands
-    #expose is used for selection of ports 
-    expose:
-      - 8000:8000   #expose container port 8000 to host port 8000
-# " - " is used here syntax for array in json it is used as "[]" but in yaml it is used as "indentation hypan indentation" --> "  -  "
+    build:
+      context: ./helloworld
+      dockerfile: Dockerfile
+    depends_on:
+        - postgres_db
+    ports:
+      - "8000:8000"  # Expose container port 8000 to host port 8000  
+    networks:
+      - my-api-net
+  postgres_db:
+    image: postgres:latest  # Use the official PostgreSQL image
+    restart: always
+    container_name: PostgresCont
+    environment:
+        - POSTGRES_USER=ziakhan
+        - POSTGRES_PASSWORD=my_password
+        - POSTGRES_DB=mydatabase
+    ports:
+        - '5433:5432'
+    volumes:
+        - postgres_db:/var/lib/postgresql/data
+    networks:
+      - my-api-net
+
+volumes:
+  postgres_db:
+    driver: local
+
+networks:
+  my-api-net:  # Define the custom network
